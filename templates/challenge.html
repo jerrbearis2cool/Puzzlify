@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+            <html lang="en">
+              <head>
+                <meta charset="utf-8">
+                <title>challenge</title>
+                <meta name="generator" content="GrapesJS Studio">
+                <meta name="viewport" content="width=device-width,initial-scale=1">
+                <meta property="og:type" content="website">
+                <meta name="robots" content="index,follow">
+                <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+                <link rel="stylesheet" href="style.css">
+                <script src="https://cdn.tiny.cloud/1/fwfnmr0ygcq9i58kq0e5yakaouinimvs4ueod0f7jaqovj9z/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+                <style>
+                  .tiny-pageembed--21by9,
+.tiny-pageembed--16by9,
+.tiny-pageembed--4by3,
+.tiny-pageembed--1by1 {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.tiny-pageembed--21by9::before,
+.tiny-pageembed--16by9::before,
+.tiny-pageembed--4by3::before,
+.tiny-pageembed--1by1::before {
+  content: "";
+  display: block;
+}
+
+.tiny-pageembed--21by9::before {
+  padding-top: 42.857143%;
+}
+
+.tiny-pageembed--16by9::before {
+  padding-top: 56.25%;
+}
+
+.tiny-pageembed--4by3::before {
+  padding-top: 75%;
+}
+
+.tiny-pageembed--1by1::before {
+  padding-top: 100%;
+}
+
+.tiny-pageembed--21by9 iframe,
+.tiny-pageembed--16by9 iframe,
+.tiny-pageembed--4by3 iframe,
+.tiny-pageembed--1by1 iframe {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+                </style>
+                  <script>
+                  tinymce.init({
+                    selector: 'textarea',
+                    plugins: 'pageembed code advcode a11ychecker',
+                    toolbar: 'pageembed code',
+                    menubar: false,
+                    tiny_pageembed_classes: [
+                      { text: 'Big embed', value: 'my-big-class' },
+                      { text: 'Small embed', value: 'my-small-class' }
+                    ],
+                    height: 500,
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                  // editable_root: true
+                  });
+                  
+
+                function edit(id, value) {
+                  // Edit an element by its ID 
+                  document.getElementById(id).innerHTML = value
+                }
+
+                function submitCode() {
+                  // submit the code
+                  edit("idn54", "Waiting for response...");
+
+                  var jsonData = {
+                    diff: '{{ diff }}',
+                    name: '{{ name }}',
+                    code: tinyMCE.get('page-embed').getContent({format: 'text'})
+                  };
+
+                  var http = new XMLHttpRequest();
+                  http.open("POST", `/alt`, true);
+                  http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                      const data = JSON.parse(http.responseText);
+                      edit("idn54", data['result'] + "<br>" + data['reason']);
+                    }
+                  }
+                  http.send(JSON.stringify(jsonData));
+                }
+
+              </script>
+              
+              </head>
+              <body id="iau9"><div id="i6po" class="gjs-grid-row"><div id="itjq" class="gjs-grid-column"><div id="iyd2" class="gjs-grid-row"><div id="iqjl" class="gjs-grid-column"><a id="i7fk5" class="gjs-button">Puzzlify</a></div><div id="id7x" class="gjs-grid-column"><a id="irraj" class="gjs-button">Random level 1</a><a class="gjs-button" id="i0iwj">Random level 2</a><a class="gjs-button" id="i5ob5">Random level 3</a></div></div></div></div><div id="testimonial-section" class="gjs-grid-row"><div id="infwen" class="gjs-grid-column"><h2 id="ihap8q" class="gjs-heading">Challenge - {{ name }}</h2><div id="im26m">Difficulty: {{ diff }} </div><div id="i5k4nf" class="gjs-grid-row"><div id="idndjn" class="gjs-grid-column testimonial-item"><h4 id="i5ig45" class="gjs-heading">Instructions</h4><div id="iwq2f">{{ info | safe }}</div><div id="ih4hh" class="gjs-divider"></div></div><div id="inmt0n" class="gjs-grid-column testimonial-item"><h4 id="ijd82" class="gjs-heading">Editor</h4><div id="ilmdx" class="gjs-divider"></div>
+                <textarea id="page-embed" style="height: 100px; width: 100%; margin-bottom: 10px; text-align: left;"><br>result = <br>print(result)</textarea>
+                </div><div id="i0tzd" class="gjs-grid-column testimonial-item"><a id="i1mew" class="gjs-button" onclick="submitCode()" >Submit</a>
+                <div id="i4aiz" class="gjs-grid-row"><div id="iv8ww" class="gjs-grid-column"><div id="idn54"></div></div></div></div></div></div></div></body>
+                  </html>
